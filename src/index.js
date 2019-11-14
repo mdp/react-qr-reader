@@ -28,6 +28,7 @@ module.exports = class Reader extends Component {
     legacyMode: PropTypes.bool,
     resolution: PropTypes.number,
     showViewFinder: PropTypes.bool,
+    torch: PropTypes.bool,
     style: PropTypes.any,
     className: PropTypes.string,
     constraints: PropTypes.object
@@ -190,6 +191,11 @@ module.exports = class Reader extends Component {
     const streamTrack = stream.getTracks()[0]
     // Assign `stopCamera` so the track can be stopped once component is cleared
     this.stopCamera = streamTrack.stop.bind(streamTrack)
+    if (this.props.torch) {
+      streamTrack.applyConstraints({
+        advanced: [{torch: true}]
+      });
+    }
 
     preview.addEventListener('loadstart', this.handleLoadStart)
 
