@@ -191,9 +191,10 @@ module.exports = class Reader extends Component {
     const streamTrack = stream.getTracks()[0]
     // Assign `stopCamera` so the track can be stopped once component is cleared
     this.stopCamera = streamTrack.stop.bind(streamTrack)
-    if (this.props.torch) {
-      const streamVideoTrack = stream.getVideoTracks()[0]
-      streamVideoTrack.applyConstraints({
+
+    // Set the torch to on
+    if (this.props.torch && streamTrack.getCapabilities().torch) {
+      streamTrack.applyConstraints({
         advanced: [{torch: true}]
       });
     }
